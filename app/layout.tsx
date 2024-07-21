@@ -23,7 +23,7 @@ export default function RootLayout({
         <Navbar />
         <Whatssp />
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );

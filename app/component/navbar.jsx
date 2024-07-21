@@ -2,14 +2,23 @@
 
 import { useState } from 'react';
 import Image from "next/image";
-import Home from '../pages/home'
+import Modal from '../pages/Modal'; // Import the Modal component
+import Home from '../pages/home';
 export default function Navbar() {
     const [open, setOpen] = useState(false);
     const [activeLink, setActiveLink] = useState('Home');
+    const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
 
     const handleClick = (link) => {
         setActiveLink(link);
         setOpen(false);
+        if (link === 'About') {
+            setIsModalOpen(true); // Open modal when 'About' is clicked
+        }
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false); // Close modal
     };
 
     return (
@@ -20,15 +29,15 @@ export default function Navbar() {
                         <a href="#" className="text-lg tracking-widest text-gray-900 uppercase rounded-lg focus:outline-none focus:shadow-outline">
                             <Image
                                 src="/images/metalogo.png"
-                                width={115}
-                                height={115}
+                                width={120}
+                                height={120}
                                 alt="Profile Picture" />
                         </a>
                         <button
                             className="md:hidden rounded-lg focus:outline-none focus:shadow-outline"
                             onClick={() => setOpen(!open)}
                         >
-                            <svg fill="currentColor" viewBox="0 0 20 20" className="w-6 h-6">
+                            <svg fill="#43c7ed" viewBox="0 0 20 20" className="w-6 h-6">
                                 {open ? (
                                     <path
                                         fillRule="evenodd"
@@ -48,10 +57,10 @@ export default function Navbar() {
                     <nav
                         className={`flex-col flex-grow pb-4 md:pb-0 md:flex md:justify-end md:flex-row ${open ? 'flex' : 'hidden'}`}
                     >
-                        {['Home', 'About us', 'Services', 'Reviews', 'Contact Us'].map((link) => (
+                        {['Home', 'About', 'Services', 'Reviews', 'Contact Us'].map((link) => (
                             <a
                                 key={link}
-                                className={`px-4 py-2 mt-2 text-sm text-[#000] rounded-lg md:mt-0 md:ml-4  focus:text-[#43c7ed] focus:outline-none focus:shadow-outline ${activeLink === link ? 'text-[#43c7ed]' : ''}`}
+                                className={`px-4 py-2 mt-2 text-sm rounded-lg md:mt-0 md:ml-4 focus:outline-none focus:shadow-outline border ${activeLink === link ? 'border-[#2e2f68]' : 'border-transparent'}`}
                                 href="#"
                                 onClick={() => handleClick(link)}
                             >
@@ -62,6 +71,7 @@ export default function Navbar() {
                 </div>
             </div>
             <Home />
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
         </>
     );
 }
